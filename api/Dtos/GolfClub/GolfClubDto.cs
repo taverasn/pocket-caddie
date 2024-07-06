@@ -1,22 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using api.Enums;
+using Newtonsoft.Json.Converters;
 
-namespace api.Models
+namespace api.Dtos.GolfClub
 {
-    [Table("GolfClubs")]
-    public class GolfClub
+    public class GolfClubDto
     {
         public int Id { get; set; }
+        public int Distance;
         public string Name { get; set; } = String.Empty;
-        public int Distance { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public GolfClubType GolfClubType { get; set; }
-        public string AppUserId { get; set; }
-        public AppUser AppUser { get; set; }
-
+        
     }
 }

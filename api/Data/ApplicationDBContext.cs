@@ -16,9 +16,15 @@ namespace api.Data
             
         }
 
+        public DbSet<GolfClub> GolfClubs { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<GolfClub>()
+            .Property(g => g.GolfClubType)
+            .HasConversion<int>();
 
             List<IdentityRole> roles = new List<IdentityRole>
             {
