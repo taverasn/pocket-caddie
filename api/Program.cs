@@ -1,13 +1,16 @@
 using api.Data;
 using api.Interfaces;
 using api.Models;
+using api.Repository;
 using api.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +52,7 @@ builder.Services.AddControllers()
 .AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+    options.SerializerSettings.Converters.Add(new StringEnumConverter());
 });
 
 builder.Services.AddDbContext<ApplicationDBContext>(options => {
@@ -88,6 +92,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IGolfClubRepository, GolfClubRepository>();
 
 var app = builder.Build();
 

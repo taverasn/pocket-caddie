@@ -158,13 +158,35 @@ namespace api.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "GolfClubs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Distance = table.Column<int>(type: "int", nullable: false),
+                    GolfClubType = table.Column<int>(type: "int", nullable: false),
+                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GolfClubs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GolfClubs_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "381c977f-43b6-4c97-b5de-2e9e49b6fdb3", null, "User", "USER" },
-                    { "e7395e3f-d3e7-434d-88f2-54c5a75fcc77", null, "Admin", "ADMIN" }
+                    { "cf1bbd9c-717e-4a22-80cc-9311eb35c6dd", null, "Admin", "ADMIN" },
+                    { "fc0df4fd-e1b5-4dcc-84f7-dc9d497d256d", null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -205,6 +227,11 @@ namespace api.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GolfClubs_AppUserId",
+                table: "GolfClubs",
+                column: "AppUserId");
         }
 
         /// <inheritdoc />
@@ -224,6 +251,9 @@ namespace api.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "GolfClubs");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
